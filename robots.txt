@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sarielgil.github.io/netanel-bsimchot/sitemap.xml
