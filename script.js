@@ -9,19 +9,27 @@ const setHeaderState = () => {
 setHeaderState();
 window.addEventListener('scroll', setHeaderState, { passive: true });
 
-menuToggle?.addEventListener('click', () => {
-  const isOpen = menu.classList.toggle('open');
+const setMenuOpen = (isOpen) => {
+  menu?.classList.toggle('open', isOpen);
   menuToggle.setAttribute('aria-expanded', String(isOpen));
   menuToggle.setAttribute('aria-label', isOpen ? 'סגירת תפריט' : 'פתיחת תפריט');
   document.body.classList.toggle('menu-open', isOpen);
+};
+
+menuToggle?.addEventListener('click', () => {
+  setMenuOpen(!menu.classList.contains('open'));
 });
 
 menu?.querySelectorAll('a').forEach((link) => {
   link.addEventListener('click', () => {
-    menu.classList.remove('open');
-    menuToggle?.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('menu-open');
+    setMenuOpen(false);
   });
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape' || !menu?.classList.contains('open')) return;
+  setMenuOpen(false);
+  menuToggle?.focus();
 });
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
